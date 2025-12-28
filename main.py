@@ -1,5 +1,5 @@
 from csvtool.session import CSVSession
-from csvtool.view import CSVView
+from csvtool.view import CSVView, render_preview, render_preview_columns
 from csvtool.config import save_config, load_config
 
 PREVIEW_LIMIT = 5
@@ -22,12 +22,11 @@ def handle_choice(choice: str, session: CSVSession) -> bool:
         return False
 
     elif choice == "2":
-        for row in session.current_rows[:PREVIEW_LIMIT]:
-            print(row)
+        render_preview(session.columns, session.current_rows, PREVIEW_LIMIT)
         return False
 
     elif choice == "3":
-        print(", ".join(session.columns))
+        render_preview_columns(session.columns)
         return False
 
     elif choice == "4":
@@ -55,8 +54,7 @@ def handle_choice(choice: str, session: CSVSession) -> bool:
 
         print(f"フィルター後の件数: {len(session.current_rows)}")
         print("フィルターした結果：（{PREVIEW_LIMIT}件まで)")
-        for row in session.current_rows[:PREVIEW_LIMIT]:
-            print(row)
+        render_preview(session.columns, session.current_rows, PREVIEW_LIMIT)
 
     elif choice == "5":
         while True:
@@ -87,8 +85,7 @@ def handle_choice(choice: str, session: CSVSession) -> bool:
                 raise
 
         print(f"ソートした結果:{PREVIEW_LIMIT}件まで")
-        for row in session.current_rows[:PREVIEW_LIMIT]:
-            print(row)
+        render_preview(session.columns, session.current_rows, PREVIEW_LIMIT)
 
 
     elif choice == "6":
@@ -113,8 +110,7 @@ def handle_choice(choice: str, session: CSVSession) -> bool:
 
         print("resetしました。")
 
-        for row in session.current_rows[:PREVIEW_LIMIT]:
-            print(row)
+        render_preview(session.columns, session.current_rows, PREVIEW_LIMIT)
         return False
 
     else:
